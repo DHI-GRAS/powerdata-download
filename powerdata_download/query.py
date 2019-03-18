@@ -53,5 +53,3 @@ def _get_link_from_url(url):
         return catalogue['outputs']['netcdf']
     except KeyError:
         return []
-url = build_query_url(start_date=datetime.date(2005,7,1),end_date=datetime.date(2005,7,31),parameters=["ALLSKY_SFC_SW_DWN"],identifier="Regional",extent={'xmin':-40,'xmax':-70,'ymin':-38,'ymax':-66},output_list=["NETCDF"])
-print(_get_link_from_url(url))
