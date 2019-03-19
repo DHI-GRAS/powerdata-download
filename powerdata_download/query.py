@@ -21,6 +21,28 @@ def _date_logic(start_date, end_date):
 def build_query_url(start_date=None, end_date=None, parameters=None, identifier=None,
                     extent=None, output_list=None, user_community="SSE", temp_average="DAILY",
                     user="anonymous"):
+    """Build POWER query URL
+
+    Parameters
+    ----------
+    start_date, end_date : datetime.datetime, optional
+        date range
+    parameters : list of str
+        parameters to download
+    identifier : str in [SinglePoint, Regional, Global], optional
+        region identifier
+    extent : dict, optional
+        with keys xmin, xmax, ymin, ymax
+    output_list : list of str
+        list of output file formats
+    **other
+        see API docs
+
+    Returns
+    -------
+    str
+        query URL
+    """
     url = POWER_DATA_URL_BASE
     start_date, end_date = _date_logic(start_date, end_date)
     if start_date is not None and end_date is not None:
@@ -51,6 +73,27 @@ def build_query_url(start_date=None, end_date=None, parameters=None, identifier=
 
 
 def get_entry(url):
+    """Call query URL and check returned entry
+
+    Parameters
+    ----------
+    url : str
+        POWER query URL
+
+    Returns
+    -------
+    dict
+        entry returned by query
+
+    Raises
+    ------
+    RuntimeError
+        when API returned error
+    """
     r = requests.get(url)
+    r.raise_for_status()
     entry = json.loads(r.text)
+    for message in entry.get('messages', []):
+        if 'Alert' in message:
+            raise RuntimeError(message)
     return entry
