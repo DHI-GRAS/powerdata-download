@@ -11,8 +11,8 @@ def download_kw():
         parameters=["ALLSKY_SFC_SW_DWN"],
         identifier="Regional",
         extent=dict(xmin=-40,
-                    xmax=-70,
-                    ymin=-38,
+                    xmax=-38,
+                    ymin=-70,
                     ymax=-66
                     ),
         output_list=['NETCDF']
