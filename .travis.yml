@@ -9,9 +9,6 @@ branches:
   only:
     - master
 
-before_install:
-  -pip install -U pip
-
 install:
   - pip install pytest codecov
   - pip install -e .[test]
