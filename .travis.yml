@@ -1,0 +1,26 @@
+language: python
+
+dist: xenial
+
+python:
+  - "3.6"
+
+branches:
+  only:
+    - master
+
+before_install:
+  -pip install -U pip
+
+install:
+  - pip install pytest codecov
+  - pip install -e .[test]
+
+script:
+  - coverage run --source=powerdata_download -m pytest -v --vcr use
+
+after_success:
+  - codecov
+
+notifications:
+  email: false

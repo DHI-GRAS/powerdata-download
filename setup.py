@@ -6,9 +6,13 @@ setup(
     author='Pantelis Kouris',
     author_email='pako@dhigroup.com',
     url='https://www.dhi-gras.com',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     python_requires='>=3.6',
     install_requires=[
         'requests'
-    ]
+    ],
+    extras_require={
+        'test': [
+            'pytest'
+        ]}
 )
