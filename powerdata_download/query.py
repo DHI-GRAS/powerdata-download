@@ -18,7 +18,7 @@ def _date_logic(start_date, end_date):
     return start_date, end_date
 
 
-def build_query_url(start_date=None, end_date=None, parameters=[], identifier=None,
+def build_query_url(start_date=None, end_date=None, parameters=None, identifier=None,
                     extent=None, output_list=None, user_community="SSE", temp_average="DAILY",
                     user="anonymous"):
     url = POWER_DATA_URL_BASE
@@ -27,7 +27,7 @@ def build_query_url(start_date=None, end_date=None, parameters=[], identifier=No
         datefmt = '%Y%m%d'
         url += '&startDate={}&endDate={}'.format(*[d.strftime(datefmt)
                                                    for d in (start_date, end_date)])
-    if len(parameters) <= _MAX_PARAMETERS:
+    if parameters and len(parameters) <= _MAX_PARAMETERS:
         parameters_str = ",".join(parameters)
         url += '&parameters={}'.format(parameters_str)
     if identifier:
@@ -48,10 +48,7 @@ def build_query_url(start_date=None, end_date=None, parameters=[], identifier=No
     return url
 
 
-def _get_link_from_url(url):
+def get_entry(url):
     r = requests.get(url)
-    catalogue = json.loads(r.text)
-    try:
-        return catalogue['outputs']['netcdf']
-    except KeyError:
-        return []
+    entry = json.loads(r.text)
+    return entry

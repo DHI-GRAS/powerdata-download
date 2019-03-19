@@ -14,5 +14,6 @@ def download_kw():
                     xmax=-70,
                     ymin=-38,
                     ymax=-66
-                    )
+                    ),
+        output_list=['NETCDF']
     )
