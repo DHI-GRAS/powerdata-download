@@ -35,7 +35,9 @@ def build_query_url(start_date=None, end_date=None, parameters=None, identifier=
     if extent and identifier == "SinglePoint":
         url += '&lat={lat}&lon={lon}'.format(**extent)
     if extent and identifier == "Regional":
-        url += '&bbox={xmin},{xmax},{ymin},{ymax}'.format(**extent)
+        # lower-left latitude,lower-left longitude,upper-right latitude,upper-right longitude
+        # (decimal degrees and no spaces between commas)
+        url += '&bbox={ymin},{xmin},{ymax},{xmax}'.format(**extent)
     if output_list:
         output_str = ",".join(output_list)
         url += '&outputList={}'.format(output_str)
