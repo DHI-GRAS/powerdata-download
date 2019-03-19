@@ -14,7 +14,7 @@ install:
   - pip install -e .[test]
 
 script:
-  - python -m pytest --color=yes
+  - coverage run --source=powerdata_download -m pytest
 
 after_success:
   - codecov
