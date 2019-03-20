@@ -32,7 +32,8 @@ def build_query_url(start_date=None, end_date=None, parameters=None, identifier=
     identifier : str in [SinglePoint, Regional, Global], optional
         region identifier
     extent : dict, optional
-        with keys xmin, xmax, ymin, ymax
+        with keys xmin, xmax, ymin, ymax if identifier is Regional
+        with keys lat, lon if identifier is SinglePoint
     output_list : list of str
         list of output file formats
     **other
