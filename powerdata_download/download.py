@@ -18,15 +18,21 @@ def get_link_from_entry(entry, filetype):
         )
 
 
-def download_entry(entry, download_dir, filetype='netcdf', skip_existing=False):
+def download_entry(
+        entry, download_dir=None, local_filename=None, filetype='netcdf', skip_existing=False
+):
     """Download entry
 
     Parameters
     ----------
     entry : dict
         from query
-    download_dir : str
+    download_dir : str, optional
         path to download directory
+        ignored if local_filename is specified
+    local_filename : str, optional
+        complete path to local file name
+        overrides download_dir / <original-name>
     filetype : str
         file type to download
 
@@ -35,9 +41,12 @@ def download_entry(entry, download_dir, filetype='netcdf', skip_existing=False):
     str
         path to downloaded file
     """
+    if download_dir is None and local_filename is None:
+        raise ValueError('Specify either download_dir or local_filename.')
     data_link = get_link_from_entry(entry, filetype)
     o = urlparse(data_link)
-    local_filename = os.path.join(download_dir, os.path.basename(o.path))
+    if local_filename is None:
+        local_filename = os.path.join(download_dir, os.path.basename(o.path))
     if os.path.isfile(local_filename) and skip_existing:
         pass
     else:
